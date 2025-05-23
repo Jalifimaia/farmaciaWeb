@@ -1,0 +1,11 @@
+.vs/
+.vscode/
+bin/
+obj/
+BLL/bin/
+DAL/bin/
+loginPrueba/bin/
+BLL/obj/
+DAL/obj/
+loginPrueba/obj/
+

@@ -1,0 +1,30 @@
+﻿@model Farmacia.web.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Inicio de sesión";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div style="margin-top: 60px;">
+</div>
+
+
+
+<form asp-action="Login" method="post">
+    <div>
+        <label for="Correo">Correo electrónico:</label>
+        <input asp-for="correo" />
+    </div>
+    <div>
+        <label for="Contrasena">Contraseña:</label>
+        <input asp-for="contrasenia" type="password" />
+    </div>
+    <div>
+        <button type="submit">Iniciar sesión</button>
+    </div>
+    @if (ViewBag.Mensaje != null)
+    {
+        <p style="color:red">@ViewBag.Mensaje</p>
+    }
+</form>
