@@ -1,0 +1,51 @@
+﻿
+@model List<Farmacia.Entidades.Usuario>
+@{
+    ViewData["Title"] = "Listado de Usuarios";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-info">@TempData["Mensaje"]</div>
+}
+
+<a href="@Url.Action("Crear")" class="btn btn-primary mb-3">Crear nuevo usuario</a>
+
+<form asp-action="Buscar" method="get" class="mb-3">
+    <input type="text" name="criterio" placeholder="Buscar por nombre o correo" />
+    <button type="submit" class="btn btn-secondary">Buscar</button>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Rol ID</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var u in Model)
+        {
+            <tr>
+                <td>@u.Nombre</td>
+                <td>@u.Correo_Electronico</td>
+                <td>@u.Rol.Nombre</td>
+                <td>
+                    <a href="@Url.Action("Editar", new { id = u.Id_Usuario })" class="btn btn-warning btn-sm">Editar</a>
+                    <form asp-action="Eliminar" method="post" style="display:inline" onsubmit="return confirm('¿Eliminar usuario?');">
+                        <input type="hidden" name="id" value="@u.Id_Usuario" />
+                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                    </form>
+                   
+
+                </td>
+            </tr>
+        }
+    </tbody>
+   
+</table>
+<a asp-controller="Admin" asp-action="Index" class="btn btn-secondary mt-3">Volver</a>

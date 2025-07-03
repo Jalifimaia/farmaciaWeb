@@ -7,7 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Farmacia.Datos\Farmacia.Datos.csproj" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Farmacia.Entidades\Farmacia.Entidades.csproj" />
   </ItemGroup>
 

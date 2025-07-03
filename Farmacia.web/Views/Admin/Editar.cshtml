@@ -1,0 +1,32 @@
+﻿@model Farmacia.Entidades.Usuario
+@{
+    ViewData["Title"] = "Editar Usuario";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Editar" method="post">
+    <input type="hidden" asp-for="Id_Usuario" />
+
+    <div class="form-group">
+        <label>Nombre</label>
+        <input asp-for="Nombre" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label>Correo Electrónico</label>
+        <input asp-for="Correo_Electronico" type="email" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label>Contraseña</label>
+        <input asp-for="Contraseña" type="password" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label>Rol ID</label>
+        <input asp-for="id_Rol" type="number" class="form-control" required min="1" />
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Guardar cambios</button>
+    <a asp-action="Listar" class="btn btn-secondary mt-3">Cancelar</a>
+</form>
+<a asp-controller="Admin" asp-action="Index" class="btn btn-secondary mt-3">Volver</a>
+

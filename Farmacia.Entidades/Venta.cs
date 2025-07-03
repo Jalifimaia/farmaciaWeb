@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Farmacia.Entidades
 {
-     class Venta
+     public class Venta
     {
 		private int _id_venta;
 

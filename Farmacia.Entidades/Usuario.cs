@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,61 +10,53 @@ namespace Farmacia.Entidades
     public class Usuario
     {
 		private int _id_usuario;
-
-		public int Id_Usuario
+        private string _nombre;
+        private string _correo_Electronico;
+        private string _contraseña;
+		private int _id_Rol;
+        private Rol _Rol;
+        public int Id_Usuario
 		{
 			get { return _id_usuario; }
 			set { _id_usuario = value; }
 		}
-		private string _nombre;
 
-		public string Nombre
+        [Required(ErrorMessage = "El nombre es obligatorio")]
+        public string Nombre
 		{
 			get { return _nombre; }
 			set { _nombre = value; }
 		}
-		private string _apellido;
 
-		public string Apellido
-		{
-			get { return _apellido; }
-			set { _apellido = value; }
-		}
-
-		private string _correo_Electronico;
-
-		public string Correo_Electronico
+        [Required(ErrorMessage = "El correo es obligatorio")]
+        [EmailAddress(ErrorMessage = "Formato de correo no válido")]
+        public string Correo_Electronico
 		{
 			get { return _correo_Electronico; }
 			set { _correo_Electronico = value; }
 		}
 
-		private string _contrasenia;
-
-		public string Contrasenia
+        [Required(ErrorMessage = "La contraseña es obligatoria")]
+        [DataType(DataType.Password)]
+        public string Contraseña
 		{
-			get { return _contrasenia; }
-			set { _contrasenia = value; }
-		}
-
-		private DateTime _fecha_de_nacimiento;
-
-		public DateTime Fecha_de_nacimiento
-		{
-			get { return _fecha_de_nacimiento; }
-			set { _fecha_de_nacimiento = value; }
-		}
-
-		private string _rol;
-
-		public string Rol
-		{
-			get { return _rol; }
-			set { _rol = value; }
+			get { return _contraseña; }
+			set { _contraseña = value; }
 		}
 
 
+		public int id_Rol
+		{
+			get { return _id_Rol; }
+			set { _id_Rol = value; }
+		}
 
+        [Range(1, 4, ErrorMessage = "Debe seleccionar un rol")]
+        public Rol Rol
+        {
+            get { return _Rol; }
+            set { _Rol = value; }
+        }
 
 
 

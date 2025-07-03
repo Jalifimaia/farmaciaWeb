@@ -1,29 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Farmacia.Entidades
 {
-     class Cliente
+    public class Cliente
     {
-		private int _id_cliente;
+        public int IdCliente { get; set; }
 
-		public int Id_Cliente
-		{
-			get { return _id_cliente; }
-			set { _id_cliente = value; }
-		}
+        [Required(ErrorMessage = "El nombre es obligatorio")]
+        public string Nombre { get; set; }
 
-		private string _tipo_Cliente;
+        [Required(ErrorMessage = "El apellido es obligatorio")]
+        public string Apellido { get; set; }
 
-		public string Tipo_Cliente
-		{
-			get { return _tipo_Cliente; }
-			set { _tipo_Cliente = value; }
-		}
+        [Required(ErrorMessage = "El email es obligatorio")]
+        [EmailAddress(ErrorMessage = "El email no es válido")]
+        public string Email { get; set; }
 
+        [Required(ErrorMessage = "El DNI es obligatorio")]
+        public string DNI { get; set; }
 
-	}
+        [Required(ErrorMessage = "Debe seleccionar un tipo de perfil")]
+        public string TipoCliente { get; set; }
+    }
 }

@@ -1,0 +1,43 @@
+﻿@model Farmacia.Entidades.Usuario
+
+@{
+    ViewData["Title"] = "Crear Usuario";
+    var roles = new List<string> { "Administrador", "Farmacéutico", "Gerente", "Vendedor" };
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Crear" method="post">
+    <div class="form-group">
+        <label>Nombre</label>
+        <input asp-for="Nombre" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Correo Electrónico</label>
+        <input asp-for="Correo_Electronico" type="email" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Contraseña</label>
+        <input asp-for="Contraseña" class="form-control" type="password" />
+    </div>
+    <div class="form-group">
+        <label>Rol</label>
+        <select asp-for="Rol.Nombre" class="form-control">
+            <option value="">-- Seleccione un rol --</option>
+            @foreach (var rol in roles)
+            {
+                <option value="@rol">@rol</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Crear</button>
+    <a asp-action="Listar" class="btn btn-secondary mt-3">Cancelar</a>
+</form>
+
+<a asp-controller="Admin" asp-action="Index" class="btn btn-secondary mt-3">Volver</a>
+
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger mt-3">Error al crear el usuario. Revise los campos.</div>
+}
