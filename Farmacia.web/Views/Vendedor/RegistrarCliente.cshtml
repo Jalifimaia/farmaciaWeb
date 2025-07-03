@@ -27,9 +27,9 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="Email" class="control-label"></label>
-        <input asp-for="Email" class="form-control" type="email" />
-        <span asp-validation-for="Email" class="text-danger"></span>
+        <label asp-for="Correo_Electronico" class="control-label"></label>
+        <input asp-for="Correo_Electronico" class="form-control" type="email" />
+        <span asp-validation-for="Correo_Electronico" class="text-danger"></span>
     </div>
 
     <div class="form-group">
@@ -39,14 +39,14 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="TipoCliente" class="control-label"></label>
-        <select asp-for="TipoCliente" class="form-control">
+        <label asp-for="Tipo_Cliente" class="control-label"></label>
+        <select asp-for="Tipo_Cliente" class="form-control">
             <option value="">-- Seleccione tipo cliente --</option>
             <option value="Jubilado">Jubilado</option>
             <option value="ObraSocial">ObraSocial</option>
             
         </select>
-        <span asp-validation-for="TipoCliente" class="text-danger"></span>
+        <span asp-validation-for="Tipo_Cliente" class="text-danger"></span>
     </div>
 
     <div class="form-group" style="margin-top: 20px;">
@@ -54,6 +54,7 @@
         <a asp-action="Index" class="btn btn-secondary">Volver</a>
     </div>
 </form>
+<a asp-controller="Admin" asp-action="Index" class="btn btn-secondary mt-3">Volver</a>
 
 @section Scripts {
     @{

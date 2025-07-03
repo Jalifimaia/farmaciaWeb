@@ -12,7 +12,7 @@ namespace Farmacia.Entidades
         private int _id_venta;
         private int _id_medicamento;
         private int _cantidad;
-        private int _subtotal;
+        private float _subTotal;
         private int _precio_unitario;
 
         public int Id_Detalle
@@ -39,11 +39,14 @@ namespace Farmacia.Entidades
             set { _cantidad = value; }
         }
 
-        public int Subtotal
+        
+
+        public float SubTotal
         {
-            get { return _subtotal; }
-            set { _subtotal = value; }
+            get { return _subTotal; }
+            set { _subTotal = value; }
         }
+
         public int Precio_Unitario
         {
             get { return _precio_unitario; }

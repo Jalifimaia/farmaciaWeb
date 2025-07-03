@@ -13,10 +13,11 @@
 
 <a href="@Url.Action("Crear")" class="btn btn-primary mb-3">Crear nuevo usuario</a>
 
-<form asp-action="Buscar" method="get" class="mb-3">
+<form asp-action="Buscar" method="get">
     <input type="text" name="criterio" placeholder="Buscar por nombre o correo" />
-    <button type="submit" class="btn btn-secondary">Buscar</button>
+    <button type="submit">Buscar</button>
 </form>
+
 
 <table class="table table-striped">
     <thead>

@@ -24,6 +24,7 @@ namespace Farmacia.web.Controllers
             return View(usuarios);
         }
 
+
         // Mostrar formulario para crear usuario
         [HttpGet]
         public IActionResult Crear()
@@ -102,11 +103,13 @@ namespace Farmacia.web.Controllers
             }
 
             var usuarios = usuarioLN.BuscarUsuarios(criterio);
+
             if (usuarios.Count == 0)
                 TempData["Mensaje"] = "No se encontraron usuarios.";
 
             return View("Listar", usuarios);
         }
+
     }
 
 

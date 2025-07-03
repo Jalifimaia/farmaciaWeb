@@ -1,6 +1,7 @@
 ﻿using Farmacia.Entidades;
 using Farmacia.LogicaNegocio;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 
 namespace Farmacia.web.Controllers
 {
@@ -20,26 +21,49 @@ namespace Farmacia.web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult RegistrarCliente(Cliente cliente)
         {
-            if (ModelState.IsValid)
+
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    clienteLN.RegistrarCliente(cliente);
-                    TempData["Mensaje"] = "Cliente registrado correctamente.";
-                    return RedirectToAction("RegistrarCliente");
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", "Error al registrar cliente: " + ex.Message);
-                }
+                ViewBag.Mensaje = "Error. Verifique los campos.";
+                return View(cliente);
             }
-            return View(cliente);
+
+            bool exito = clienteLN.RegistrarCliente(cliente);
+
+            if (exito)
+            {
+                TempData["Mensaje"] = "Cliente registrado con éxito.";
+                return RedirectToAction("RegistrarCliente");
+            }
+            else
+            {
+                ViewBag.Mensaje = "No se pudo registrar el cliente.";
+                return View(cliente);
+            }
+        }
+
+
+        [HttpGet]
+        public IActionResult BuscarCliente()
+        {
+            var clientes = clienteLN.BuscarClientes(""); // Traer todos al inicio o los primeros
+            return View(clientes);
+        }
+
+        [HttpPost]
+        public IActionResult BuscarCliente(string criterio)
+        {
+            var clientes = clienteLN.BuscarClientes(criterio);
+            if (clientes.Count == 0)
+                ViewBag.Mensaje = "No se encontraron clientes.";
+
+            return View(clientes); // Retornar la misma vista con la lista filtrada
         }
 
 
     }
 }
+
 

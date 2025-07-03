@@ -11,22 +11,63 @@ namespace Farmacia.Datos
     {
         private Conexion conexion = new Conexion();
 
-        public void Insertar(Cliente cliente)
+        public bool RegistrarCliente(Cliente c)
         {
-            string query = @"INSERT INTO Cliente (Nombre, Apellido, Email, DNI, TipoCliente)
-                             VALUES (@Nombre, @Apellido, @Email, @DNI, @TipoCliente)";
+            Conexion conexion = new Conexion();
 
-            SqlParameter[] parametros =
+            SqlParameter[] parametros = new SqlParameter[]
             {
-                conexion.crearParametro("@Nombre", cliente.Nombre),
-                conexion.crearParametro("@Apellido", cliente.Apellido),
-                conexion.crearParametro("@Email", cliente.Email),
-                conexion.crearParametro("@DNI", cliente.DNI),
-                conexion.crearParametro("@TipoCliente", cliente.TipoCliente)
+        conexion.crearParametro("@Nombre", c.Nombre),
+        conexion.crearParametro("@Apellido", c.Apellido),
+        conexion.crearParametro("@Correo_Electronico", c.Correo_Electronico),
+        conexion.crearParametro("@DNI", c.DNI),
+        conexion.crearParametro("@Tipo_Cliente", c.Tipo_Cliente)
             };
 
-            conexion.EscribirPorComando(query, parametros);
+            try
+            {
+                int filas = conexion.EscribirPorStoreProcedure("sp_RegistrarCliente", parametros);
+                return filas > 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al registrar el cliente: " + ex.Message);
+                return false;
+            }
         }
+
+        public List<Cliente> BuscarClientes(string criterio)
+        {
+            List<Cliente> lista = new List<Cliente>();
+
+            SqlParameter[] parametros = new SqlParameter[]
+            {
+                conexion.crearParametro("@Criterio", criterio)
+            };
+
+            DataTable tabla = conexion.LeerPorStoreProcedure("sp_BuscarCliente", parametros);
+
+            if (tabla != null)
+            {
+                foreach (DataRow fila in tabla.Rows)
+                {
+                    Cliente c = new Cliente
+                    {
+                        Id_Cliente = Convert.ToInt32(fila["Id_Cliente"]),
+                        Nombre = fila["Nombre"].ToString(),
+                        Apellido = fila["Apellido"].ToString(),
+                        Correo_Electronico = fila["Correo_Electronico"].ToString(),
+                        DNI = fila["DNI"].ToString(),
+                        Tipo_Cliente = fila["Tipo_Cliente"].ToString()
+                    };
+                    lista.Add(c);
+                }
+            }
+
+            return lista;
+        }
+
+
 
         public List<Cliente> ObtenerTodos()
         {
@@ -39,12 +80,12 @@ namespace Farmacia.Datos
             {
                 lista.Add(new Cliente
                 {
-                    IdCliente = Convert.ToInt32(fila["IdCliente"]),      // coincidir con el nombre en la tabla
+                    Id_Cliente = Convert.ToInt32(fila["IdCliente"]),      // coincidir con el nombre en la tabla
                     Nombre = fila["Nombre"].ToString(),
                     Apellido = fila["Apellido"].ToString(),
-                    Email = fila["Email"].ToString(),
+                    Correo_Electronico = fila["Email"].ToString(),
                     DNI = fila["DNI"].ToString(),
-                    TipoCliente = fila["TipoCliente"].ToString()        // coincide con el nombre de la columna en la tabla
+                    Tipo_Cliente = fila["TipoCliente"].ToString()        // coincide con el nombre de la columna en la tabla
                 });
             }
 

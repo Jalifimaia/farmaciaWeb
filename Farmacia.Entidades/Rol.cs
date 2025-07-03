@@ -10,7 +10,7 @@ namespace Farmacia.Entidades
     {
 		private int _id_Rol;
 
-		public int id_Rol
+		public int Id_Rol
 		{
 			get { return _id_Rol; }
 			set { _id_Rol = value; }

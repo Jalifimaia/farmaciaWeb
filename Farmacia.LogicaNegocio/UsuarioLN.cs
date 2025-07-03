@@ -76,7 +76,8 @@ namespace Farmacia.LogicaNegocio
 
 
 
-public Usuario IniciarSesion(string correo, string contrasenia)
+
+        public Usuario IniciarSesion(string correo, string contrasenia)
         {
             if (correo == "admin@correo.com" && contrasenia == "1234")
             {
@@ -87,7 +88,7 @@ public Usuario IniciarSesion(string correo, string contrasenia)
                     Correo_Electronico = correo,
                     Rol = new Rol
                     {
-                        id_Rol = 1,
+                        Id_Rol = 1,
                         Nombre = "Administrador"
                     }
                 };
@@ -102,7 +103,7 @@ public Usuario IniciarSesion(string correo, string contrasenia)
                     Correo_Electronico = correo,
                     Rol = new Rol
                     {
-                        id_Rol = 2,
+                        Id_Rol = 2,
                         Nombre = "Farmaceutico"
                     }
                 };

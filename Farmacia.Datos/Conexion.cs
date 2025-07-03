@@ -22,7 +22,7 @@ namespace DAL
          * base de datos (en este caso, SqlServer)
          * 
          */
-        private void Conectar()
+        public void Conectar()
         {   // HACK: Cadena de conexión hardcodeada. Luego ponerla como parametro de configuración del proyecto u otra alternativa.
             strCadenaDeConexion = @"Data Source=MAIA-JALIFI\SQLEXPRESS02;Initial Catalog=FarmaciaBBDD;Integrated Security=True";
 
@@ -38,7 +38,7 @@ namespace DAL
          * base de datos (en este caso, SqlServer)
          * 
          */
-        private void Desconectar()
+        public void Desconectar()
         {
             objConexion.Close();
             objConexion.Dispose();

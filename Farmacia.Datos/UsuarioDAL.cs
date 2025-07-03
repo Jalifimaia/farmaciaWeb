@@ -119,43 +119,40 @@ namespace Farmacia.DAL
 
         public List<Usuario> ObtenerTodos()
         {
-            string consulta = "SELECT * FROM Usuario";
-            DataTable tabla = conexion.LeerPorComando(consulta);
-
             List<Usuario> lista = new List<Usuario>();
+            Conexion conexion = new Conexion();
+
+            DataTable tabla = conexion.LeerPorStoreProcedure("sp_ListarUsuarios");
 
             foreach (DataRow fila in tabla.Rows)
             {
-                Usuario u = new Usuario
+                Usuario usuario = new Usuario
                 {
                     Id_Usuario = Convert.ToInt32(fila["Id_Usuario"]),
                     Nombre = fila["Nombre"].ToString(),
                     Correo_Electronico = fila["Correo_Electronico"].ToString(),
                     Contraseña = fila["Contraseña"].ToString(),
-                    Rol = new Rol { Nombre = fila["Rol"].ToString() }  // CORREGIDO
+                    Rol = new Rol { Nombre = fila["Rol"].ToString() }
                 };
 
-                lista.Add(u);
+                lista.Add(usuario);
             }
 
             return lista;
         }
+
 
         public List<Usuario> Buscar(string criterio)
         {
-            string consulta = @"
-        SELECT * FROM Usuario 
-        WHERE Nombre LIKE @Criterio 
-           OR Correo_Electronico LIKE @Criterio 
-           OR Rol LIKE @Criterio";
+            List<Usuario> lista = new List<Usuario>();
+            Conexion conexion = new Conexion();
 
             SqlParameter[] parametros = new SqlParameter[]
             {
-        conexion.crearParametro("@Criterio", "%" + criterio + "%")
+        conexion.crearParametro("@Criterio", criterio)
             };
 
-            DataTable tabla = conexion.LeerPorComando(consulta, parametros);
-            List<Usuario> lista = new List<Usuario>();
+            DataTable tabla = conexion.LeerPorStoreProcedure("sp_BuscarUsuarios", parametros);
 
             foreach (DataRow fila in tabla.Rows)
             {
@@ -165,13 +162,15 @@ namespace Farmacia.DAL
                     Nombre = fila["Nombre"].ToString(),
                     Correo_Electronico = fila["Correo_Electronico"].ToString(),
                     Contraseña = fila["Contraseña"].ToString(),
-                    Rol = new Rol { Nombre = fila["Rol"].ToString() } // ← Rol como texto
+                    Rol = new Rol { Nombre = fila["Rol"].ToString() }
                 };
+
                 lista.Add(u);
             }
 
             return lista;
         }
+
 
     }
 

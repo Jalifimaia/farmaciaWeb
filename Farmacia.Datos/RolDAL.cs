@@ -30,7 +30,7 @@ namespace Farmacia.Datos
                     {
                         roles.Add(new Rol
                         {
-                            id_Rol = Convert.ToInt32(dr["Id_Rol"]),
+                            Id_Rol = Convert.ToInt32(dr["Id_Rol"]),
                             Nombre = dr["Nombre"].ToString()
                         });
                     }
