@@ -1,40 +1,15 @@
-﻿<div>
+﻿@{
+    ViewData["Title"] = "Panel Gerente";
+}
 
-    @{
-        ViewData["Title"] = "Bienvenido Gerente";
-    }
+<h2>Panel del Gerente</h2>
 
-    <h2 style="text-align: center">@ViewData["Title"]</h2>
-</div>
-
-<div style="margin-top: 60px;">
-</div>
-
-
-<div>
-
-    <style>
-        .contenedor-botones-columna {
-            display: flex; /* Habilita Flexbox */
-            flex-direction: column; /* Apila los ítems verticalmente */
-            gap: 10px; /* Añade un espacio de 10px entre los botones */
-            align-items: flex-start; /* Opcional: Alinea los botones a la izquierda si son de anchos diferentes */
-        }
-    </style>
-    <div class="contenedor-botones-columna">
-        <button type="button" class="btn btn-secondary">Medicamentos mas vendidos</button>
-        <button type="button" class="btn btn-secondary">Stock General</button>
-        <button type="button" class="btn btn-secondary">Reporte ventas</button>
-        <button type="button" class="btn btn-secondary">Ventas por geolocalizacion</button>
-    </div>
-</div>
-
-
-
-
-    <div style="margin-top: 60px;">
-    </div>
+<ul>
+    <li><a href="@Url.Action("ReporteInventario", "Gerente")">📦 Reporte de Inventario</a></li>
+    <li><a href="@Url.Action("ReporteAlertas", "Gerente")">⚠️ Reporte de Alertas</a></li>
+    <li><a href="@Url.Action("ReporteVentas", "Gerente")">💰 Reporte de Ventas</a></li>
+</ul>
 
 <form asp-controller="Home" asp-action="CerrarSesion" method="post">
-    <button type="submit" class="btn btn-warning btn-sm">Cerrar Sesión</button>
+    <button type="submit" class="btn btn-secondary btn-sm">Cerrar Sesión</button>
 </form>

@@ -46,6 +46,29 @@ namespace Farmacia.Datos
 
             conexion.EscribirPorStoreProcedure("sp_RegistrarVentaCompleta", parametros);
         }
+        public List<(string NombreMedicamento, int CantidadVendida)> ObtenerReporteVentas()
+        {
+            string consulta = @"
+        SELECT m.Nombre, SUM(dv.Cantidad) AS CantidadVendida
+        FROM DetalleVenta dv
+        INNER JOIN Medicamento m ON m.Id_Medicamento = dv.Id_Medicamento
+        GROUP BY m.Nombre
+        ORDER BY CantidadVendida DESC";
+
+            var tabla = conexion.LeerPorComando(consulta);
+
+            List<(string, int)> lista = new List<(string, int)>();
+
+            foreach (DataRow fila in tabla.Rows)
+            {
+                string nombre = fila["Nombre"].ToString();
+                int cantidad = Convert.ToInt32(fila["CantidadVendida"]);
+                lista.Add((nombre, cantidad));
+            }
+
+            return lista;
+        }
+
 
 
     }

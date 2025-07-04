@@ -1,0 +1,37 @@
+﻿@model List<Farmacia.Entidades.Medicamento>
+@{
+    ViewData["Title"] = "Reporte Inventario";
+}
+
+<h2>📦 Reporte de Inventario</h2>
+
+<div>
+    <a href="@Url.Action("ReporteInventario", new { orden = "alfabetico" })">Ordenar alfabéticamente</a> |
+    <a href="@Url.Action("ReporteInventario", new { orden = "cantidad" })">Ordenar por cantidad</a>
+</div>
+
+<table class="table table-bordered mt-3">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>ID</th>
+            <th>Stock</th>
+            <th>Fecha de Vencimiento</th>
+            <th>Precio</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var med in Model)
+        {
+            <tr>
+                <td>@med.Nombre</td>
+                <td>@med.Id_Medicamento</td>
+                <td>@med.Stock</td>
+                <td>@med.Fecha_Vencimiento.ToShortDateString()</td>
+                <td>$@med.Precio</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-controller="Gerente" asp-action="Index" class="btn btn-secondary mt-3">Volver</a>

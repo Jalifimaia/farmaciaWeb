@@ -1,0 +1,33 @@
+﻿@model List<(string NombreMedicamento, int CantidadVendida)>
+@{
+    ViewData["Title"] = "Reporte de Ventas";
+}
+
+<h2>💰 Reporte de Medicamentos Vendidos</h2>
+
+@if (Model.Count == 0)
+{
+    <p>No hay ventas registradas aún.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Medicamento</th>
+                <th>Cantidad Vendida</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.NombreMedicamento</td>
+                    <td>@item.CantidadVendida</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<a asp-controller="Gerente" asp-action="Index" class="btn btn-secondary mt-3">Volver</a>
