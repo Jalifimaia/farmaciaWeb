@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using DAL;
 using Farmacia.Entidades;
 
+
 namespace Farmacia.Datos
 {
     public class VentaDAL
@@ -69,6 +70,49 @@ namespace Farmacia.Datos
             return lista;
         }
 
+        public List<Venta> ListarVentasConDetalles()
+        {
+            // Llamar al SP sin parámetros
+            DataTable dt = conexion.LeerPorStoreProcedure("sp_ListarVentasConDetalles", null);
+
+            // Diccionario para agrupar detalles por venta
+            var ventasDict = new Dictionary<int, Venta>();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                int idVenta = Convert.ToInt32(row["Id_Venta"]);
+
+                // Si la venta no existe en el diccionario, crearla y agregarla
+                if (!ventasDict.ContainsKey(idVenta))
+                {
+                    Venta venta = new Venta
+                    {
+                        Id_Venta = idVenta,
+                        Id_Cliente = Convert.ToInt32(row["Id_Cliente"]),
+                        Id_Vendedor = Convert.ToInt32(row["Id_Vendedor"]),
+                        Monto_Total = Convert.ToSingle(row["Monto_Total"]),
+                        Detalles = new List<DetalleVenta>()
+                    };
+                    ventasDict.Add(idVenta, venta);
+                }
+
+                // Crear el detalle de venta
+                DetalleVenta detalle = new DetalleVenta
+                {
+                    Id_Detalle = Convert.ToInt32(row["Id_Detalle"]),
+                    Id_Medicamento = Convert.ToInt32(row["Id_Medicamento"]),
+                    Cantidad = Convert.ToInt32(row["Cantidad"]),
+                    Precio_Unitario = row["Precio_Unitario"] == DBNull.Value ? 0 : Convert.ToInt32(row["Precio_Unitario"]),
+                    SubTotal = Convert.ToSingle(row["SubTotal"])
+                };
+
+                // Agregar el detalle a la venta correspondiente
+                ventasDict[idVenta].Detalles.Add(detalle);
+            }
+
+            // Devolver la lista de ventas con sus detalles
+            return ventasDict.Values.ToList();
+        }
 
 
     }

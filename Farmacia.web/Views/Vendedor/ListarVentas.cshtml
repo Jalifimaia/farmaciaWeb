@@ -1,0 +1,45 @@
+﻿@model List<Farmacia.Entidades.Venta>
+
+<h2 class="mb-4 text-primary">Ventas Registradas</h2>
+
+@foreach (var venta in Model)
+{
+    <div class="card mb-4 shadow-sm border-0">
+        <div class="card-body">
+            <h5 class="card-title text-secondary mb-3">Venta ID: @venta.Id_Venta</h5>
+            <div class="row mb-3">
+                <div class="col-md-3"><strong>Cliente ID:</strong> @venta.Id_Cliente</div>
+                <div class="col-md-3"><strong>Vendedor ID:</strong> @venta.Id_Vendedor</div>
+                <div class="col-md-3"><strong>Monto Total:</strong> <span class="text-success">$@venta.Monto_Total.ToString("N2")</span></div>
+            </div>
+
+            <h6 class="text-info mb-3">Detalles</h6>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered align-middle mb-0">
+                    <thead class="table-primary">
+                        <tr>
+                            <th scope="col">Medicamento</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Precio Unitario</th>
+                            <th scope="col">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var detalle in venta.Detalles)
+                        {
+                            <tr>
+                                <td>@detalle.Id_Medicamento</td>
+                                <td>@detalle.Cantidad</td>
+                                <td>$@detalle.Precio_Unitario.ToString("N2")</td>
+                                <td>$@detalle.SubTotal.ToString("N2")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    }
+
+    <a asp-controller="Vendedor" asp-action="Index" class="btn btn-secondary mt-3">Volver</a>
+

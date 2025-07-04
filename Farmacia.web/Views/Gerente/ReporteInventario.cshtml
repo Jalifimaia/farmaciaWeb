@@ -3,35 +3,68 @@
     ViewData["Title"] = "Reporte Inventario";
 }
 
-<h2>📦 Reporte de Inventario</h2>
+<div class="container mt-4">
+    <h2 class="mb-4">📦 Reporte de Inventario</h2>
 
-<div>
-    <a href="@Url.Action("ReporteInventario", new { orden = "alfabetico" })">Ordenar alfabéticamente</a> |
-    <a href="@Url.Action("ReporteInventario", new { orden = "cantidad" })">Ordenar por cantidad</a>
+    <div class="mb-3">
+        <div class="btn-group" role="group" aria-label="Opciones de ordenamiento">
+            <a href="@Url.Action("ReporteInventario", new { orden = "alfabetico" })" class="btn btn-outline-primary">
+                Ordenar alfabéticamente
+            </a>
+            <a href="@Url.Action("ReporteInventario", new { orden = "cantidad" })" class="btn btn-outline-secondary">
+                Ordenar por cantidad
+            </a>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">No hay medicamentos para mostrar.</div>
+    }
+    else
+    {
+        <table class="table table-hover table-bordered align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nombre</th>
+                    <th>ID</th>
+                    <th>Stock</th>
+                    <th>Fecha de Vencimiento</th>
+                    <th>Precio</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var med in Model)
+                {
+                    <tr>
+                        <td>@med.Nombre</td>
+                        <td>@med.Id_Medicamento</td>
+                        <td>
+                            @if (med.Stock <= 5)
+                            {
+                                <span class="badge bg-danger">@med.Stock</span>
+                            }
+                            else
+                            {
+                                @med.Stock
+                            }
+                        </td>
+                        <td>
+                            @if (med.Fecha_Vencimiento <= DateTime.Now.AddDays(30))
+                            {
+                                <span class="text-danger fw-bold">@med.Fecha_Vencimiento.ToShortDateString()</span>
+                            }
+                            else
+                            {
+                                @med.Fecha_Vencimiento.ToShortDateString()
+                            }
+                        </td>
+                        <td>$@med.Precio</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    <a asp-controller="Gerente" asp-action="Index" class="btn btn-secondary mt-4">Volver</a>
 </div>
-
-<table class="table table-bordered mt-3">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>ID</th>
-            <th>Stock</th>
-            <th>Fecha de Vencimiento</th>
-            <th>Precio</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var med in Model)
-        {
-            <tr>
-                <td>@med.Nombre</td>
-                <td>@med.Id_Medicamento</td>
-                <td>@med.Stock</td>
-                <td>@med.Fecha_Vencimiento.ToShortDateString()</td>
-                <td>$@med.Precio</td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<a asp-controller="Gerente" asp-action="Index" class="btn btn-secondary mt-3">Volver</a>

@@ -39,20 +39,7 @@ namespace Farmacia.Entidades
 			get { return _monto_total; }
 			set { _monto_total = value; }
 		}
-
-
-
-		private DateTime _fecha;
-
-		public DateTime Fecha
-		{
-			get { return Fecha; }
-			set { Fecha = value; }
-		}
         public List<DetalleVenta> Detalles { get; set; } = new();
-
-
-
 
 
     }

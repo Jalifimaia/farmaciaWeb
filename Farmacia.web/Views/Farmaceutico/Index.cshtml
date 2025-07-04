@@ -4,58 +4,66 @@
     ViewData["Title"] = "Bienvenido Farmacéutico";
 }
 
-<h2 class="text-center">@ViewData["Title"]</h2>
+<h2 class="text-center mb-4">@ViewData["Title"]</h2>
 
 @if (TempData["Mensaje"] != null)
 {
-    <div class="alert alert-success">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
         @TempData["Mensaje"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
     </div>
 }
 
-<div class="contenedor-botones-columna">
+<div class="d-flex gap-3 justify-content-center mb-4 flex-wrap">
     <button type="button" class="btn btn-success" onclick="mostrarFormulario()">Agregar medicamento</button>
-    <button type="button" class="btn btn-success" onclick="toggleBuscar()">Buscar medicamentos</button>
-
-    <button type="button" class="btn btn-success" onclick="select()">Listar medicamentos</button>
-
-
-
+    <button type="button" class="btn btn-info" onclick="toggleBuscar()">Buscar medicamentos</button>
+    <button type="button" class="btn btn-primary" onclick="select()">Listar medicamentos</button>
 </div>
 
-
-<!-- Formulario -->
-<div id="formMedicamento" style="display:none; margin-top: 20px;">
-    <form asp-controller="Farmaceutico" asp-action="RegistrarMedicamento" method="post">
-        <label>Nombre:</label>
-        <input type="text" name="Nombre" required />
-
-        <label>Precio:</label>
-        <input type="number" name="Precio" required />
-
-        <label>Stock:</label>
-        <input type="number" name="Stock" required />
-
-        <label>Fecha de vencimiento:</label>
-        <input type="date" name="Fecha_Vencimiento" required />
-
-        <button type="submit" class="btn btn-primary">Registrar</button>
+<!-- Formulario Agregar -->
+<div id="formMedicamento" class="card p-4 mb-4" style="display:none; max-width: 480px; margin: 0 auto;">
+    <h5>Registrar nuevo medicamento</h5>
+    <form asp-controller="Farmaceutico" asp-action="RegistrarMedicamento" method="post" class="mt-3">
+        <div class="mb-3">
+            <label class="form-label">Nombre:</label>
+            <input type="text" name="Nombre" class="form-control" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Precio:</label>
+            <input type="number" name="Precio" class="form-control" min="0" step="0.01" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Stock:</label>
+            <input type="number" name="Stock" class="form-control" min="0" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Fecha de vencimiento:</label>
+            <input type="date" name="Fecha_Vencimiento" class="form-control" required />
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Registrar</button>
     </form>
 </div>
 
+<!-- Formulario Buscar -->
+<div id="formBuscar" class="card p-4 mb-4" style="display:none; max-width: 480px; margin: 0 auto;">
+    <h5>Buscar medicamentos</h5>
+    <form asp-action="BuscarMedicamentos" asp-controller="Farmaceutico" method="get" class="d-flex gap-2 mt-3">
+        <input type="text" name="criterio" class="form-control" placeholder="Nombre o ID" required />
+        <button type="submit" class="btn btn-info">Buscar</button>
+    </form>
+</div>
 
-
-<!-- Lista de medicamentos  -->
-<div id="tablaMedicamentos" style="@(ViewBag.MostrarTabla ? "display:block;" : "display:none;") margin-top: 30px;">
-    <h4>Lista de Medicamentos</h4>
-    <table class="table">
-        <thead>
+<!-- Lista de Medicamentos -->
+<div id="tablaMedicamentos" style="@(ViewBag.MostrarTabla ? "display:block;" : "display:none;") max-width: 900px; margin: 0 auto;">
+    <h4 class="mb-3">Lista de Medicamentos</h4>
+    <table class="table table-hover table-bordered align-middle">
+        <thead class="table-light">
             <tr>
                 <th>Nombre</th>
                 <th>Precio</th>
                 <th>Stock</th>
                 <th>Fecha de Vencimiento</th>
-                <th>Acciones</th>
+                <th class="text-center">Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -66,84 +74,85 @@
                     <td>$@med.Precio</td>
                     <td>@med.Stock</td>
                     <td>@med.Fecha_Vencimiento.ToShortDateString()</td>
-                    
-                    <td>
+                    <td class="text-center">
                         <form asp-action="EliminarMedicamento" method="post" style="display:inline;">
                             <input type="hidden" name="id" value="@med.Id_Medicamento" />
-                            <button class="btn btn-danger btn-sm" type="submit">Eliminar</button>
+                            <button class="btn btn-danger btn-sm me-1" type="submit" onclick="return confirm('¿Eliminar medicamento?');">Eliminar</button>
                         </form>
-
-                        <button class="btn btn-warning btn-sm" onclick="mostrarEditar(@med.Id_Medicamento, '@med.Nombre', @med.Precio, @med.Stock, '@med.Fecha_Vencimiento.ToString("yyyy-MM-dd")')">Editar</button>
+                        <button class="btn btn-warning btn-sm"
+                                onclick="mostrarEditar(@med.Id_Medicamento, '@med.Nombre', @med.Precio, @med.Stock, '@med.Fecha_Vencimiento.ToString("yyyy-MM-dd")')">
+                            Editar
+                        </button>
                     </td>
-
                 </tr>
             }
         </tbody>
     </table>
-    
 </div>
 
 <!-- Formulario Editar -->
-<div id="formEditar" style="display:none; margin-top: 20px;">
-    <form asp-controller="Farmaceutico" asp-action="ActualizarMedicamento" method="post">
+<div id="formEditar" class="card p-4 mb-4" style="display:none; max-width: 480px; margin: 0 auto;">
+    <h5>Editar medicamento</h5>
+    <form asp-controller="Farmaceutico" asp-action="ActualizarMedicamento" method="post" class="mt-3">
         <input type="hidden" name="Id_Medicamento" id="editId" />
-
-        <label>Nombre:</label>
-        <input type="text" name="Nombre" id="editNombre" required />
-
-        <label>Precio:</label>
-        <input type="number" name="Precio" id="editPrecio" required />
-
-        <label>Stock:</label>
-        <input type="number" name="Stock" id="editStock" required />
-
-        <label>Fecha de vencimiento:</label>
-        <input type="date" name="Fecha_Vencimiento" id="editFecha" required />
-
-        <button type="submit" class="btn btn-primary">Actualizar</button>
+        <div class="mb-3">
+            <label class="form-label">Nombre:</label>
+            <input type="text" name="Nombre" id="editNombre" class="form-control" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Precio:</label>
+            <input type="number" name="Precio" id="editPrecio" class="form-control" min="0" step="0.01" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Stock:</label>
+            <input type="number" name="Stock" id="editStock" class="form-control" min="0" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Fecha de vencimiento:</label>
+            <input type="date" name="Fecha_Vencimiento" id="editFecha" class="form-control" required />
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Actualizar</button>
     </form>
 </div>
 
-
-<!-- Formulario de busqueda -->
-<div id="formBuscar" style="display: none; margin-top: 20px;">
-    <form asp-action="BuscarMedicamentos" asp-controller="Farmaceutico" method="get">
-        <label>Buscar por nombre o ID:</label>
-        <input type="text" name="criterio" required />
-        <button type="submit" class="btn btn-info">Buscar</button>
-    </form>
-</div>
-
-<!-- Toggle script -->
 <script>
     function mostrarFormulario() {
         var form = document.getElementById("formMedicamento");
+        var buscar = document.getElementById("formBuscar");
+        var editar = document.getElementById("formEditar");
         form.style.display = form.style.display === "none" ? "block" : "none";
+        buscar.style.display = "none";
+        editar.style.display = "none";
     }
-    
+
     function toggleBuscar() {
         var form = document.getElementById("formBuscar");
+        var agregar = document.getElementById("formMedicamento");
+        var editar = document.getElementById("formEditar");
         form.style.display = form.style.display === "none" ? "block" : "none";
+        agregar.style.display = "none";
+        editar.style.display = "none";
     }
-    
+
     function listarMedicamentos() {
         window.location.href = "/Farmaceutico/Index?mostrarTabla=true";
     }
+
     function toggleTablaMedicamentos() {
         var tabla = document.getElementById("tablaMedicamentos");
         tabla.style.display = tabla.style.display === "none" ? "block" : "none";
-        
     }
-    function select(){
+
+    function select() {
         var tabla = document.getElementById("tablaMedicamentos");
-        if(tabla.style.display == "none"){
+        if (tabla.style.display === "none" || tabla.style.display === "") {
             listarMedicamentos();
-        }else if(tabla.style.display =="block"){
+        } else if (tabla.style.display === "block") {
             toggleTablaMedicamentos();
         }
     }
 
-        function mostrarEditar(id, nombre, precio, stock, fecha) {
+    function mostrarEditar(id, nombre, precio, stock, fecha) {
         document.getElementById("editId").value = id;
         document.getElementById("editNombre").value = nombre;
         document.getElementById("editPrecio").value = precio;
@@ -151,12 +160,11 @@
         document.getElementById("editFecha").value = fecha;
 
         document.getElementById("formEditar").style.display = "block";
-        document.getElementById("formMedicamento").style.display = "none"; 
+        document.getElementById("formMedicamento").style.display = "none";
+        document.getElementById("formBuscar").style.display = "none";
     }
-
-    
 </script>
 
-<form asp-controller="Home" asp-action="CerrarSesion" method="post">
-    <button type="submit" class="btn btn-secondary btn-sm">Cerrar Sesión</button>
+<form asp-controller="Home" asp-action="CerrarSesion" method="post" class="text-center mt-4">
+    <button type="submit" class="btn btn-secondary btn-sm px-4">Cerrar Sesión</button>
 </form>

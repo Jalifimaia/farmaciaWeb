@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Farmacia.Datos;
 using Farmacia.Entidades;
+using Farmacia.Datos;
 
 namespace Farmacia.LogicaNegocio
 {
@@ -24,6 +25,12 @@ namespace Farmacia.LogicaNegocio
         {
             return dal.ObtenerReporteVentas();
         }
+
+        public List<Venta> ListarVentasConDetalles()
+        {
+            return datos.ListarVentasConDetalles();
+        }
+
     }
 }
 

@@ -1,52 +1,72 @@
-﻿
-@model List<Farmacia.Entidades.Usuario>
+﻿@model List<Farmacia.Entidades.Usuario>
 @{
     ViewData["Title"] = "Listado de Usuarios";
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="container mt-4" style="max-width: 900px;">
+    <h2 class="mb-4 text-primary">@ViewData["Title"]</h2>
 
-@if (TempData["Mensaje"] != null)
-{
-    <div class="alert alert-info">@TempData["Mensaje"]</div>
-}
+    @if (TempData["Mensaje"] != null)
+    {
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            @TempData["Mensaje"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+    }
 
-<a href="@Url.Action("Crear")" class="btn btn-primary mb-3">Crear nuevo usuario</a>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <a href="@Url.Action("Crear")" class="btn btn-success">Crear nuevo usuario</a>
 
-<form asp-action="Buscar" method="get">
-    <input type="text" name="criterio" placeholder="Buscar por nombre o correo" />
-    <button type="submit">Buscar</button>
-</form>
+        <form asp-action="Buscar" method="get" class="d-flex" role="search">
+            <input type="text" name="criterio" class="form-control me-2" placeholder="Buscar por nombre o correo" />
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </form>
+    </div>
 
-
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Rol ID</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var u in Model)
-        {
+    <table class="table table-hover table-bordered align-middle">
+        <thead class="table-dark">
             <tr>
-                <td>@u.Nombre</td>
-                <td>@u.Correo_Electronico</td>
-                <td>@u.Rol.Nombre</td>
-                <td>
-                    <a href="@Url.Action("Editar", new { id = u.Id_Usuario })" class="btn btn-warning btn-sm">Editar</a>
-                    <form asp-action="Eliminar" method="post" style="display:inline" onsubmit="return confirm('¿Eliminar usuario?');">
-                        <input type="hidden" name="id" value="@u.Id_Usuario" />
-                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                    </form>
-                   
-
-                </td>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Rol</th>
+                <th style="width: 150px;">Acciones</th>
             </tr>
-        }
-    </tbody>
-   
-</table>
-<a asp-controller="Admin" asp-action="Index" class="btn btn-secondary mt-3">Volver</a>
+        </thead>
+        <tbody>
+            @if (Model.Count == 0)
+            {
+                <tr>
+                    <td colspan="4" class="text-center fst-italic">No se encontraron usuarios.</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var u in Model)
+                {
+                    <tr>
+                        <td>@u.Nombre</td>
+                        <td>@u.Correo_Electronico</td>
+                        <td>@u.Rol.Nombre</td>
+                        <td>
+                            <a href="@Url.Action("Editar", new { id = u.Id_Usuario })" class="btn btn-warning btn-sm me-1" title="Editar usuario">
+                                <i class="bi bi-pencil-square"></i> Editar
+                            </a>
+                            <form asp-action="Eliminar" method="post" style="display:inline;" onsubmit="return confirm('¿Eliminar usuario?');">
+                                <input type="hidden" name="id" value="@u.Id_Usuario" />
+                                <button type="submit" class="btn btn-danger btn-sm" title="Eliminar usuario">
+                                    <i class="bi bi-trash"></i> Eliminar
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <a asp-controller="Admin" asp-action="Index" class="btn btn-secondary mt-3">Volver</a>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.js"></script>
+}

@@ -4,48 +4,57 @@
     ViewData["Title"] = "Buscar Cliente";
 }
 
-<h2>Buscar Cliente</h2>
+<div class="container mt-4">
+    <h2 class="mb-4">@ViewData["Title"]</h2>
 
-<form asp-action="BuscarCliente" method="post">
-    <input type="text" name="criterio" placeholder="Ingrese nombre, apellido, email, DNI o tipo" />
-    <button type="submit">Buscar</button>
-</form>
+    <form asp-action="BuscarCliente" method="post" class="row g-3 mb-4">
+        <div class="col-md-8">
+            <input type="text" name="criterio" class="form-control" placeholder="Ingrese nombre, apellido, email, DNI o tipo" />
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-primary w-100">Buscar</button>
+        </div>
+    </form>
 
-@if (ViewBag.Mensaje != null)
-{
-    <p>@ViewBag.Mensaje</p>
-}
+    @if (ViewBag.Mensaje != null)
+    {
+        <div class="alert alert-warning">@ViewBag.Mensaje</div>
+    }
 
-@if (Model != null && Model.Count > 0)
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Correo Electrónico</th>
-                <th>DNI</th>
-                <th>Tipo Cliente</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var cliente in Model)
-            {
-                <tr>
-                    <td>@cliente.Id_Cliente</td>
-                    <td>@cliente.Nombre</td>
-                    <td>@cliente.Apellido</td>
-                    <td>@cliente.Correo_Electronico</td>
-                    <td>@cliente.DNI</td>
-                    <td>@cliente.Tipo_Cliente</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>No hay clientes para mostrar.</p>
-}
-<a asp-controller="Admin" asp-action="Index" class="btn btn-secondary mt-3">Volver</a>
+    @if (Model != null && Model.Count > 0)
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Correo Electrónico</th>
+                        <th>DNI</th>
+                        <th>Tipo Cliente</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cliente in Model)
+                    {
+                        <tr>
+                            <td>@cliente.Id_Cliente</td>
+                            <td>@cliente.Nombre</td>
+                            <td>@cliente.Apellido</td>
+                            <td>@cliente.Correo_Electronico</td>
+                            <td>@cliente.DNI</td>
+                            <td>@cliente.Tipo_Cliente</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">No hay clientes para mostrar.</div>
+    }
+
+    <a asp-controller="Vendedor" asp-action="Index" class="btn btn-secondary mt-3">Volver</a>
+</div>

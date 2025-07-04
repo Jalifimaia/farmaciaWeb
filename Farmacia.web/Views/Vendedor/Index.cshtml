@@ -2,27 +2,16 @@
     ViewData["Title"] = "Bienvenido Vendedor";
 }
 
-<h2 style="text-align: center">@ViewData["Title"]</h2>
+<h2 class="text-center my-4">@ViewData["Title"]</h2>
 
-<style>
-    .contenedor-botones-columna {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        align-items: flex-start;
-        max-width: 220px; /* ajustable */
-        margin: 0 auto; /* centrar horizontalmente */
-    }
-</style>
-
-<div class="contenedor-botones-columna">
-    <a asp-controller="Vendedor" asp-action="RegistrarCliente" class="btn btn-warning">Registrar Cliente</a>
-    <a asp-controller="Vendedor" asp-action="BuscarCliente" class="btn btn-warning">Buscar Cliente</a>
-    <a asp-controller="Vendedor" asp-action="RegistrarVenta" class="btn btn-warning">Registrar Venta</a>
-    <a asp-controller="Vendedor" asp-action="ListarVentas" class="btn btn-warning">Listar Ventas</a>
-    
+<div class="d-flex flex-column align-items-center gap-3 mx-auto" style="max-width: 260px;">
+    <a asp-controller="Vendedor" asp-action="RegistrarCliente" class="btn btn-warning btn-lg w-100">Registrar Cliente</a>
+    <a asp-controller="Vendedor" asp-action="BuscarCliente" class="btn btn-warning btn-lg w-100">Buscar Cliente</a>
+    <a asp-controller="Vendedor" asp-action="RegistrarVenta" class="btn btn-warning btn-lg w-100">Registrar Venta</a>
+    <a asp-controller="Vendedor" asp-action="ListarVentas" class="btn btn-warning btn-lg w-100">Listar Ventas</a>
+    <a asp-controller="Vendedor" asp-action="ListarCliente" class="btn btn-warning btn-lg w-100">Listar Clientes</a>
 </div>
 
-<form asp-controller="Home" asp-action="CerrarSesion" method="post" style="margin-top: 30px; text-align: center;">
-    <button type="submit" class="btn btn-secondary btn-sm">Cerrar Sesión</button>
+<form asp-controller="Home" asp-action="CerrarSesion" method="post" class="text-center mt-4">
+    <button type="submit" class="btn btn-secondary btn-sm px-4">Cerrar Sesión</button>
 </form>

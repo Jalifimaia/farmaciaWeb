@@ -4,27 +4,35 @@
     ViewData["Title"] = "Inicio de sesión";
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow p-4" style="min-width: 320px; max-width: 400px; width: 100%;">
+        <h2 class="text-center mb-4 text-primary">@ViewData["Title"]</h2>
 
-<div style="margin-top: 60px;">
+        @if (ViewBag.Mensaje != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.Mensaje
+            </div>
+        }
+
+        <form asp-action="Login" method="post" novalidate>
+            <div class="mb-3">
+                <label asp-for="correo" class="form-label">Correo electrónico</label>
+                <input asp-for="correo" class="form-control" type="email" placeholder="tu@correo.com" autofocus />
+                <span asp-validation-for="correo" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="contrasenia" class="form-label">Contraseña</label>
+                <input asp-for="contrasenia" class="form-control" type="password" placeholder="Contraseña" />
+                <span asp-validation-for="contrasenia" class="text-danger small"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Iniciar sesión</button>
+        </form>
+    </div>
 </div>
 
-
-
-<form asp-action="Login" method="post">
-    <div>
-        <label for="Correo">Correo electrónico:</label>
-        <input asp-for="correo" />
-    </div>
-    <div>
-        <label for="Contrasena">Contraseña:</label>
-        <input asp-for="contrasenia" type="password" />
-    </div>
-    <div>
-        <button type="submit">Iniciar sesión</button>
-    </div>
-    @if (ViewBag.Mensaje != null)
-    {
-        <p style="color:red">@ViewBag.Mensaje</p>
-    }
-</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

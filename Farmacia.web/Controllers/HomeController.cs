@@ -47,6 +47,7 @@ namespace Farmacia.web.Controllers
             if (usuario != null)
             {
                 HttpContext.Session.SetString("NombreUsuario", usuario.Nombre);
+                HttpContext.Session.SetString("Id_Usuario", usuario.Id_Usuario.ToString());
                 HttpContext.Session.SetString("RolUsuario", usuario.Rol.Nombre);
 
                 switch (usuario.Rol.Nombre)

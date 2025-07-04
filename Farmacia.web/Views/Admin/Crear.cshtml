@@ -5,39 +5,60 @@
     var roles = new List<string> { "Administrador", "Farmacéutico", "Gerente", "Vendedor" };
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="container py-4" style="max-width: 600px;">
+    <h2 class="mb-4 text-center text-primary fw-bold">@ViewData["Title"]</h2>
 
-<form asp-action="Crear" method="post">
-    <div class="form-group">
-        <label>Nombre</label>
-        <input asp-for="Nombre" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label>Correo Electrónico</label>
-        <input asp-for="Correo_Electronico" type="email" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label>Contraseña</label>
-        <input asp-for="Contraseña" class="form-control" type="password" />
-    </div>
-    <div class="form-group">
-        <label>Rol</label>
-        <select asp-for="Rol.Nombre" class="form-control">
-            <option value="">-- Seleccione un rol --</option>
-            @foreach (var rol in roles)
-            {
-                <option value="@rol">@rol</option>
-            }
-        </select>
-    </div>
-    <button type="submit" class="btn btn-primary mt-3">Crear</button>
-    <a asp-action="Listar" class="btn btn-secondary mt-3">Cancelar</a>
-</form>
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            Error al crear el usuario. Por favor, revise los campos y corrija los errores.
+        </div>
+    }
 
-<a asp-controller="Admin" asp-action="Index" class="btn btn-secondary mt-3">Volver</a>
+    <form asp-action="Crear" method="post" novalidate>
+        <div class="mb-3">
+            <label asp-for="Nombre" class="form-label fw-semibold">Nombre</label>
+            <input asp-for="Nombre" class="form-control" />
+            <span asp-validation-for="Nombre" class="text-danger small"></span>
+        </div>
 
+        <div class="mb-3">
+            <label asp-for="Correo_Electronico" class="form-label fw-semibold">Correo Electrónico</label>
+            <input asp-for="Correo_Electronico" type="email" class="form-control" />
+            <span asp-validation-for="Correo_Electronico" class="text-danger small"></span>
+        </div>
 
-@if (!ViewData.ModelState.IsValid)
-{
-    <div class="alert alert-danger mt-3">Error al crear el usuario. Revise los campos.</div>
+        <div class="mb-3">
+            <label asp-for="Contraseña" class="form-label fw-semibold">Contraseña</label>
+            <input asp-for="Contraseña" type="password" class="form-control" />
+            <span asp-validation-for="Contraseña" class="text-danger small"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Rol.Nombre" class="form-label fw-semibold">Rol</label>
+            <select asp-for="Rol.Nombre" class="form-select">
+                <option value="" disabled selected>-- Seleccione un rol --</option>
+                @foreach (var rol in roles)
+                {
+                    <option value="@rol">@rol</option>
+                }
+            </select>
+            <span asp-validation-for="Rol.Nombre" class="text-danger small"></span>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary px-4">Crear</button>
+            <a asp-action="Listar" class="btn btn-outline-secondary px-4">Cancelar</a>
+        </div>
+    </form>
+
+    <div class="text-center mt-4">
+        <a asp-controller="Admin" asp-action="Index" class="text-decoration-none">
+            &larr; Volver al panel principal
+        </a>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }

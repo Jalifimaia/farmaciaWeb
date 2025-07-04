@@ -1,41 +1,45 @@
 ﻿@model List<Farmacia.Entidades.Cliente>
 
 @{
-    ViewData["Title"] = "Resultados de búsqueda";
+    ViewData["Title"] = "Listado de Clientes";
 }
 
-<h2>Resultados de búsqueda</h2>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">📋 Listado de Clientes</h2>
 
-@if (Model != null && Model.Count > 0)
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Correo Electrónico</th>
-                <th>DNI</th>
-                <th>Tipo Cliente</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var cliente in Model)
-            {
+    @if (Model == null || Model.Count == 0)
+    {
+        <div class="alert alert-warning text-center">No hay clientes registrados.</div>
+    }
+    else
+    {
+        <table class="table table-striped table-bordered shadow-sm">
+            <thead class="table-dark text-center">
                 <tr>
-                    <td>@cliente.Id_Cliente</td>
-                    <td>@cliente.Nombre</td>
-                    <td>@cliente.Apellido</td>
-                    <td>@cliente.Correo_Electronico</td>
-                    <td>@cliente.DNI</td>
-                    <td>@cliente.Tipo_Cliente</td>
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>DNI</th>
+                    <th>Email</th>
+   
                 </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>No se encontraron resultados.</p>
-}
-<a asp-controller="Admin" asp-action="Index" class="btn btn-secondary mt-3">Volver</a>
+            </thead>
+            <tbody>
+                @foreach (var cliente in Model)
+                {
+                    <tr>
+                        <td>@cliente.Id_Cliente</td>
+                        <td>@cliente.Nombre</td>
+                        <td>@cliente.Apellido</td>
+                        <td>@cliente.DNI</td>
+                        <td>@cliente.Correo_Electronico</td>
+                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+
+<a asp-controller="Vendedor" asp-action="Index" class="btn btn-secondary mt-3">Volver</a>

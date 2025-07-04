@@ -7,6 +7,7 @@ using Farmacia.web.Models;
 using Microsoft.AspNetCore.Http;
 using Farmacia.web.Helpers;
 using System.Data;
+using Farmacia.Datos;
 
 
 namespace Farmacia.web.Controllers
@@ -140,7 +141,7 @@ namespace Farmacia.web.Controllers
 
                 return View(model);
             }
-            else if (action == "FinalizarVenta")
+            else if (action == "Finalizar")
 
             {
                 if (detalles.Count == 0)
@@ -154,7 +155,7 @@ namespace Farmacia.web.Controllers
                         Id_Cliente = model.Id_Cliente,
                         Id_Vendedor = Convert.ToInt32(HttpContext.Session.GetString("Id_Usuario")), // o como obtengas el usuario
                         Monto_Total = (int)detalles.Sum(d => d.SubTotal),
-                        Fecha = DateTime.Now
+                       
                     };
 
                     // Crear DataTable para pasar al SP
@@ -175,9 +176,27 @@ namespace Farmacia.web.Controllers
                     // Limpiar la sesión
                     HttpContext.Session.Remove(SESSION_DETALLES);
 
-                    TempData["Mensaje"] = "Venta registrada correctamente.";
+                    ViewBag.MensajeExito = " La venta fue registrada correctamente.";
 
-                    return RedirectToAction("Index"); // o a donde quieras ir después
+                    model = new RegistrarVentaViewModel
+                    {
+                        Clientes = clienteLN.ObtenerTodos().Select(c => new SelectListItem
+                        {
+                            Value = c.Id_Cliente.ToString(),
+                            Text = c.Nombre + " " + c.Apellido
+                        }).ToList(),
+
+                        Medicamentos = medicamentoLN.ObtenerMedicamentos().Select(m => new SelectListItem
+                        {
+                            Value = m.Id_Medicamento.ToString(),
+                            Text = m.Nombre
+                        }).ToList(),
+
+                        Detalles = new List<DetalleVenta>() // Limpiar detalles para nueva venta
+                    };
+
+                    return View(model);
+
                 }
             }
 
@@ -192,11 +211,28 @@ namespace Farmacia.web.Controllers
 
             return View(model);
         }
+
+
+        [HttpGet]
+        public IActionResult ListarCliente()
+        {
+            var clientes = clienteLN.ObtenerTodos();
+            return View(clientes);
+        }
+
+
+        
+
+        [HttpGet]
+        public IActionResult ListarVentas()
+        {
+            var ventas = ventaLN.ListarVentasConDetalles(); 
+            return View(ventas);
+        }
+
+
+
     }
-
-
-
-
 
 
 

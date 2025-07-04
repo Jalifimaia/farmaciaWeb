@@ -3,31 +3,33 @@
     ViewData["Title"] = "Reporte de Ventas";
 }
 
-<h2>💰 Reporte de Medicamentos Vendidos</h2>
+<div class="container mt-4">
+    <h2 class="mb-4">💰 Reporte de Medicamentos Vendidos</h2>
 
-@if (Model.Count == 0)
-{
-    <p>No hay ventas registradas aún.</p>
-}
-else
-{
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Medicamento</th>
-                <th>Cantidad Vendida</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">No hay ventas registradas aún.</div>
+    }
+    else
+    {
+        <table class="table table-hover table-bordered align-middle">
+            <thead class="table-primary">
                 <tr>
-                    <td>@item.NombreMedicamento</td>
-                    <td>@item.CantidadVendida</td>
+                    <th>Medicamento</th>
+                    <th class="text-end">Cantidad Vendida</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.NombreMedicamento</td>
+                        <td class="text-end">@item.CantidadVendida</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 
-<a asp-controller="Gerente" asp-action="Index" class="btn btn-secondary mt-3">Volver</a>
+    <a asp-controller="Gerente" asp-action="Index" class="btn btn-secondary mt-4">Volver</a>
+</div>

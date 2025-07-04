@@ -2,27 +2,26 @@
     ViewData["Title"] = "Bienvenido Administrador";
 }
 
-<h2 style="text-align: center">@ViewData["Title"]</h2>
+<div class="container py-5">
+    <h2 class="text-center mb-5 fw-bold text-primary">@ViewData["Title"]</h2>
 
-<div class="contenedor-botones-columna">
+    <div class="d-flex flex-column align-items-center gap-3 mb-4">
+        <a asp-controller="Admin" asp-action="Crear" class="btn btn-lg btn-primary w-50 shadow-sm">
+            Crear Usuario
+        </a>
 
-    <a asp-controller="Admin" asp-action="Crear" class="btn btn-primary">Crear Usuario</a>
+        <a asp-controller="Admin" asp-action="Buscar" class="btn btn-lg btn-primary w-50 shadow-sm">
+            Buscar Usuario
+        </a>
 
-    <a asp-controller="Admin" asp-action="Buscar" class="btn btn-primary">Buscar Usuario</a>
-    
-     <a asp-controller="Admin" asp-action="Listar" class="btn btn-primary">Listar Usuario</a>
+        <a asp-controller="Admin" asp-action="Listar" class="btn btn-lg btn-primary w-50 shadow-sm">
+            Listar Usuarios
+        </a>
+    </div>
 
-    
+    <form asp-controller="Home" asp-action="CerrarSesion" method="post" class="text-center">
+        <button type="submit" class="btn btn-outline-secondary btn-sm px-4">
+            Cerrar Sesión
+        </button>
+    </form>
 </div>
-
-<form asp-controller="Home" asp-action="CerrarSesion" method="post">
-    <button type="submit" class="btn btn-secondary btn-sm">Cerrar Sesión</button>
-</form>
-
-
-
-
-
-
-
-
