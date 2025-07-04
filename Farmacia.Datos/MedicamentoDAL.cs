@@ -107,6 +107,28 @@ namespace Farmacia.DAL
 
             return m;
         }
+        public Medicamento ObtenerPorId(int id)
+        {
+            string query = $"SELECT * FROM Medicamento WHERE Id_Medicamento = {id}";
+
+            DataTable tabla = conexion.LeerPorComando(query);
+
+            if (tabla.Rows.Count == 0) return null;
+
+            DataRow fila = tabla.Rows[0];
+
+            return new Medicamento
+            {
+                Id_Medicamento = Convert.ToInt32(fila["Id_Medicamento"]),
+                Nombre = fila["Nombre"].ToString(),
+                Precio = Convert.ToInt32(fila["Precio"]),
+                Stock = Convert.ToInt32(fila["Stock"]),
+                Fecha_Vencimiento = fila["Fecha_Vencimiento"] != DBNull.Value
+                    ? Convert.ToDateTime(fila["Fecha_Vencimiento"])
+                    : DateTime.MinValue
+            };
+        }
+
 
 
         public void Actualizar(Medicamento m)

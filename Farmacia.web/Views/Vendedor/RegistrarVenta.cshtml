@@ -1,0 +1,51 @@
+﻿@model RegistrarVentaViewModel
+
+<h2>Registrar Venta</h2>
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success">@TempData["Mensaje"]</div>
+}
+
+<form asp-action="RegistrarVenta" method="post">
+    <div>
+        <label>Cliente</label>
+        <select asp-for="Id_Cliente" asp-items="Model.Clientes"></select>
+    </div>
+
+    <div>
+        <label>Medicamento</label>
+        <select asp-for="Id_Medicamento" asp-items="Model.Medicamentos"></select>
+    </div>
+
+    <div>
+        <label>Cantidad</label>
+        <input asp-for="Cantidad" type="number" min="1" />
+    </div>
+
+    <button type="submit" name="action" value="Agregar">Agregar Medicamento</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Medicamento</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var detalle in Model.Detalles)
+            {
+                <tr>
+                    <td>@detalle.Medicamento?.Nombre</td>
+                    <td>@detalle.Cantidad</td>
+                    <td>@detalle.Precio_Unitario</td>
+                    <td>@detalle.SubTotal</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" name="action" value="Finalizar">Finalizar Venta</button>
+</form>

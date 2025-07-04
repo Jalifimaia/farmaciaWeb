@@ -19,12 +19,20 @@ namespace Farmacia.LogicaNegocio
             return datos.ObtenerTodos();
         }
 
+      
+
+        public Medicamento ObtenerPorId(int id)
+        {
+            return datos.ObtenerPorId(id);
+        }
+
+
         public void RegistrarMedicamento(Medicamento medicamento)
         {
 
             datos.Agregar(medicamento);
         }
-
+        
         public void EliminarMedicamento(int id)
         {
             datos.Eliminar(id);

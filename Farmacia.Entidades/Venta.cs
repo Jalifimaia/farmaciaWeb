@@ -32,9 +32,9 @@ namespace Farmacia.Entidades
 			set { _id_cliente = value; }
 		}
 
-		private int _monto_total;
+		private float _monto_total;
 
-		public int Monto_Total
+		public float Monto_Total
 		{
 			get { return _monto_total; }
 			set { _monto_total = value; }
@@ -42,6 +42,18 @@ namespace Farmacia.Entidades
 
 
 
+		private DateTime _fecha;
 
-	}
+		public DateTime Fecha
+		{
+			get { return Fecha; }
+			set { Fecha = value; }
+		}
+        public List<DetalleVenta> Detalles { get; set; } = new();
+
+
+
+
+
+    }
 }

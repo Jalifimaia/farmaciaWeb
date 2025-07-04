@@ -19,7 +19,17 @@ namespace Farmacia.LogicaNegocio
             {
                 return false;
             }
+        } 
+
+
+  
+        public List<Cliente> ObtenerTodos()
+        {
+            // Lógica para obtener todos los clientes, ej:
+            return new ClienteDAL().ObtenerTodos(); // o como tengas la capa de acceso a datos
         }
+
+
 
 
 

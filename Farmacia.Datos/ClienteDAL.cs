@@ -80,12 +80,12 @@ namespace Farmacia.Datos
             {
                 lista.Add(new Cliente
                 {
-                    Id_Cliente = Convert.ToInt32(fila["IdCliente"]),      // coincidir con el nombre en la tabla
+                    Id_Cliente = Convert.ToInt32(fila["Id_Cliente"]),      // coincidir con el nombre en la tabla
                     Nombre = fila["Nombre"].ToString(),
                     Apellido = fila["Apellido"].ToString(),
-                    Correo_Electronico = fila["Email"].ToString(),
+                    Correo_Electronico = fila["Correo_Electronico"].ToString(),
                     DNI = fila["DNI"].ToString(),
-                    Tipo_Cliente = fila["TipoCliente"].ToString()        // coincide con el nombre de la columna en la tabla
+                    Tipo_Cliente = fila["Tipo_Cliente"].ToString()        // coincide con el nombre de la columna en la tabla
                 });
             }
 

@@ -14,42 +14,40 @@ namespace Farmacia.Datos
     {
         private Conexion conexion = new Conexion();
 
-        public bool RegistrarVenta(Venta venta, List<DetalleVenta> detalles)
+        public void RegistrarVentaConSP(Venta venta, List<DetalleVenta> detalles)
         {
-           ;
-
-            // Paso 1: Armar DataTable para el parámetro tipo tabla
-            DataTable tablaDetalle = new DataTable();
-            tablaDetalle.Columns.Add("Cantidad", typeof(int));
-            tablaDetalle.Columns.Add("Precio_Unitario", typeof(float));
-            tablaDetalle.Columns.Add("SubTotal", typeof(float));
+            var tablaDetalle = new DataTable();
             tablaDetalle.Columns.Add("Id_Medicamento", typeof(int));
+            tablaDetalle.Columns.Add("Cantidad", typeof(int));
+            tablaDetalle.Columns.Add("Precio_Unitario", typeof(int));
+            tablaDetalle.Columns.Add("SubTotal", typeof(float)); // si usás int también sirve
 
             foreach (var d in detalles)
             {
-                tablaDetalle.Rows.Add(d.Cantidad, d.Precio_Unitario, d.SubTotal, d.Id_Medicamento);
+                tablaDetalle.Rows.Add(d.Id_Medicamento, d.Cantidad, d.Precio_Unitario, d.SubTotal);
             }
 
-            // Paso 2: Armar parámetros
             SqlParameter[] parametros = new SqlParameter[]
             {
-        conexion.crearParametro("@Id_Vendedor", venta.Id_Vendedor),
         conexion.crearParametro("@Id_Cliente", venta.Id_Cliente),
+        conexion.crearParametro("@Id_Vendedor", venta.Id_Vendedor),
         conexion.crearParametro("@Monto_Total", venta.Monto_Total),
         new SqlParameter
         {
             ParameterName = "@DetalleVenta",
             SqlDbType = SqlDbType.Structured,
-            TypeName = "DetalleVentaTipo", // IMPORTANTE que coincida con el nombre en SQL Server
+            TypeName = "DetalleVentaTipo",
             Value = tablaDetalle
         }
-            };
 
-            // Paso 3: Ejecutar el SP
-            int filasAfectadas = conexion.EscribirPorStoreProcedure("sp_RegistrarVentaCompleta", parametros);
-            return filasAfectadas > 0;
+            };
+           
+
+
+            conexion.EscribirPorStoreProcedure("sp_RegistrarVentaCompleta", parametros);
         }
 
-    }
 
+    }
 }
+

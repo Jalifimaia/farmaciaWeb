@@ -171,6 +171,12 @@ namespace DAL
 
             return filasAfectadas;
         }
+        public SqlConnection ObtenerConexion()
+        {
+            this.Conectar(); // se asegura que está abierta
+            return this.objConexion;
+        }
+
 
         //para comandos con parametros
         public int EscribirPorComando(string pTexto, SqlParameter[] pParametrosSql)
