@@ -24,7 +24,7 @@ namespace DAL
          */
         public void Conectar()
         {   // HACK: Cadena de conexión hardcodeada. Luego ponerla como parametro de configuración del proyecto u otra alternativa.
-            strCadenaDeConexion = @"Data Source=MAIA-JALIFI\SQLEXPRESS02;Initial Catalog=FarmaciaBBDD;Integrated Security=True";
+            strCadenaDeConexion = @"Data Source=DESKTOP-HLGVL32\SQLEXPRESS;Initial Catalog=FarmaciaBBDD;Integrated Security=True";
 
 
             //Instanció un objeto del tipo SqlConnection

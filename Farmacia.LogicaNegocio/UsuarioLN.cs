@@ -108,6 +108,20 @@ namespace Farmacia.LogicaNegocio
                     }
                 };
             }
+            if (correo == "gerente@correo.com" && contrasenia == "qwer")
+            {
+                return new Usuario
+                {
+                    Id_Usuario = 3,
+                    Nombre = "Gerente Falso",
+                    Correo_Electronico = correo,
+                    Rol = new Rol
+                    {
+                        Id_Rol = 3,
+                        Nombre = "Gerente"
+                    }
+                };
+            }
 
 
             return acceso.ObtenerUsuario(correo, contrasenia);
