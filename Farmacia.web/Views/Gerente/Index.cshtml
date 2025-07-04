@@ -9,3 +9,7 @@
     <li><a href="@Url.Action("ReporteAlertas", "Gerente")">⚠️ Reporte de Alertas</a></li>
     <li><a href="@Url.Action("ReporteVentas", "Gerente")">💰 Reporte de Ventas</a></li>
 </ul>
+
+<form asp-controller="Home" asp-action="CerrarSesion" method="post">
+    <button type="submit" class="btn btn-secondary btn-sm">Cerrar Sesión</button>
+</form>
